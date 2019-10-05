@@ -1,0 +1,13 @@
+####{BSB GENERATED: NO EDIT
+B lib/bs
+FLG -open TinyWonderEditor
+FLG -ppx '/Users/y/Github/Book-Repo/node_modules/bs-platform/lib/bsppx.exe -bs-jsx 3'
+S /Users/y/Github/Book-Repo/node_modules/bs-platform/lib/ocaml
+B /Users/y/Github/Book-Repo/node_modules/bs-platform/lib/ocaml
+FLG -nostdlib
+FLG -w -30-40+6+7+27+32..39+44+45+101-0-1-2-3-4-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25-26-27-28-29-30-31-32-33-34-35-36-37-38-39-40-41-42-43-44-45-46-47-48-49-50-51-52-53-54-55-56-57-58-59-60-61-62-101-104-K
+S /Users/y/Github/Book-Repo/node_modules/reason-react/lib/ocaml
+B /Users/y/Github/Book-Repo/node_modules/reason-react/lib/ocaml
+S src/demo
+B lib/bs/src/demo
+####BSB GENERATED: NO EDIT}
