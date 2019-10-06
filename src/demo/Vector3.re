@@ -1,8 +1,4 @@
-/* open Js.Typed_array; */
-
-/* TODO should explain to reader: use gadt */
-type number(_) =
-  | Float: number(float);
+open Vector3Type;
 
 /* let _transformMat4ToTuple = ((x, y, z), mat4) => {
      let w =
@@ -60,18 +56,18 @@ type number(_) =
    _transformMat4ToTuple(sourceVec3Tuple, mat4); */
 
 /* let add = (type g, kind: number(g), (x1, y1, z1), (x2, y2, z2)) =>
-     switch (kind) {
-     | Float => (x1 +. x2, y1 +. y2, z1 +. z2)
-     };
+   switch (kind) {
+   | Float => (x1 +. x2, y1 +. y2, z1 +. z2)
+   };
 
-      */
+    */
 
-   /* let multiply = (type g, kind: number(g), (x1, y1, z1), (x2, y2, z2)) =>
-     switch (kind) {
-     | Float => (x1 *. x2, y1 *. y2, z1 *. z2)
-     }; */
+/* let multiply = (type g, kind: number(g), (x1, y1, z1), (x2, y2, z2)) =>
+   switch (kind) {
+   | Float => (x1 *. x2, y1 *. y2, z1 *. z2)
+   }; */
 
-     let dot = ((x, y, z), (vx, vy, vz)) => x *. vx +. y *. vy +. z *. vz;
+let dot = ((x, y, z), (vx, vy, vz)) => x *. vx +. y *. vy +. z *. vz;
 
 let sub = (type g, kind: number(g), (x1, y1, z1), (x2, y2, z2)) =>
   switch (kind) {
@@ -79,9 +75,9 @@ let sub = (type g, kind: number(g), (x1, y1, z1), (x2, y2, z2)) =>
   };
 
 let scale = (type g, kind: number(g), scalar, (x, y, z)) =>
-   switch (kind) {
-   | Float => (x *. scalar, y *. scalar, z *. scalar)
-   };
+  switch (kind) {
+  | Float => (x *. scalar, y *. scalar, z *. scalar)
+  };
 
 /* let lerp = ((x1, y1, z1), (x2, y2, z2), t: float) => (
      x1 +. t *. (x2 -. x1),

@@ -34,7 +34,7 @@ let setLookAt =
     createIdentityMatrix4() :
     {
       let (z1, z2, z3) as z =
-        Vector3.sub(Vector3.Float, eye, center) |> Vector3.normalize;
+        Vector3.sub(Vector3Type.Float, eye, center) |> Vector3.normalize;
 
       let (x1, x2, x3) as x = Vector3.cross(up, z) |> Vector3.normalize;
 

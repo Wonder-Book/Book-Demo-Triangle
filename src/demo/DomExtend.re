@@ -1,14 +1,7 @@
-type htmlElement = {
-  .
-  "width": int,
-  "height": int,
-};
-
-type body;
-
-type document = {. "body": body};
+open DomExtendType;
 
 [@bs.val] external document: document = "";
+
 /*
 
  [@bs.send] external createElement: (document, string) => Js.t({..}) = ""; */

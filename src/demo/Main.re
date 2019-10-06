@@ -13,7 +13,7 @@ let main = () => {
         "antialias": true,
         "premultipliedAlpha": true,
         "preserveDrawingBuffer": false,
-      }: Gl.contextConfigJsObj,
+      }: GlType.contextConfigJsObj,
     );
 
   let program1 =
