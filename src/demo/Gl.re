@@ -1,8 +1,28 @@
-/* open DomExtendType; */
-
-open GlType;
-
 open Js.Typed_array;
+
+type webgl1Context;
+
+type program;
+
+type shader;
+
+type buffer;
+
+type attributeLocation = int;
+
+type uniformLocation;
+
+type precisionFormat = {. "precision": int};
+
+type contextConfigJsObj = {
+  .
+  "alpha": bool,
+  "depth": bool,
+  "stencil": bool,
+  "antialias": bool,
+  "premultipliedAlpha": bool,
+  "preserveDrawingBuffer": bool,
+};
 
 [@bs.send]
 external getWebgl1Context:
@@ -143,6 +163,5 @@ external getDepthBufferBit: webgl1Context => int = "DEPTH_BUFFER_BIT";
 [@bs.send.pipe: webgl1Context] external disable: int => unit = "";
 
 [@bs.send.pipe: webgl1Context] external cullFace: int => unit = "";
-
 
 [@bs.get] external getBack: webgl1Context => int = "BACK";
