@@ -13,9 +13,7 @@
         "-bs-no-version-header",
         "-bs-super-errors"
     ],
-    "bs-dependencies": [
-        "reason-react"
-    ],
+    "bs-dependencies": [],
     "bs-dev-dependencies": [],
     "package-specs": [
         "es6-global"
