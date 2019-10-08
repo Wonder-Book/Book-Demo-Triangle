@@ -51,7 +51,7 @@ let main = () => {
   Gl.clearColor(0., 0., 0., 1., gl);
 
   /* TODO extract state to store data */
-  let _loopBody = time => {
+  let _loopBody = () => {
     Gl.clear(Gl.getColorBufferBit(gl) lor Gl.getDepthBufferBit(gl), gl);
 
     Gl.enable(Gl.getDepthTest(gl), gl);
@@ -136,12 +136,12 @@ let main = () => {
     );
   };
 
-  let rec _loop = time =>
+  let rec _loop = () =>
     DomExtend.requestAnimationFrame((time: float) => {
-      _loopBody(time);
+      _loopBody();
 
-      _loop(time) |> ignore;
+      _loop() |> ignore;
     });
 
-  _loop(0.);
+  _loop();
 };
