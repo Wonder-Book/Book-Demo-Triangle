@@ -14,10 +14,10 @@ let vs1 = {|
 let fs1 = {|
     precision mediump float;
 
-    uniform vec3 u_color;
+    uniform vec3 u_color0;
 
     void main(){
-        gl_FragColor = vec4(u_color,1.0);
+        gl_FragColor = vec4(u_color0,1.0);
     }
     |};
 
@@ -36,9 +36,10 @@ let vs2 = {|
 let fs2 = {|
     precision mediump float;
 
-    uniform vec3 u_color;
+    uniform vec3 u_color0;
+    uniform vec3 u_color1;
 
     void main(){
-        gl_FragColor = vec4(u_color,0.2);
+        gl_FragColor = vec4(u_color0 * u_color1,1.0);
     }
     |};

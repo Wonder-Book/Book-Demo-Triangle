@@ -169,12 +169,23 @@ let sendCameraUniformData = ((vMatrix, pMatrix), program, gl) => {
   Gl.uniformMatrix4fv(pMatrixLocation, false, pMatrix, gl);
 };
 
-let sendModelUniformData = ((mMatrix, color), program, gl) => {
-  let mMatrixLocation = Gl.getUniformLocation(program, "u_mMatrix", gl);
-  let colorLocation = Gl.getUniformLocation(program, "u_color", gl);
+let _sendColorData = ((r, g, b), gl, colorLocation) =>
+  Gl.uniform3f(colorLocation, r, g, b, gl);
 
-  let (r, g, b) = color;
+let sendModelUniformData1 = ((mMatrix, color), program, gl) => {
+  let mMatrixLocation = Gl.getUniformLocation(program, "u_mMatrix", gl);
+  let colorLocation = Gl.getUniformLocation(program, "u_color0", gl);
 
   Gl.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
-  Gl.uniform3f(colorLocation, r, g, b, gl);
+  _sendColorData(color, gl, colorLocation);
+};
+
+let sendModelUniformData2 = ((mMatrix, color1, color2), program, gl) => {
+  let mMatrixLocation = Gl.getUniformLocation(program, "u_mMatrix", gl);
+  let color1Location = Gl.getUniformLocation(program, "u_color0", gl);
+  let color2Location = Gl.getUniformLocation(program, "u_color1", gl);
+
+  Gl.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
+  _sendColorData(color1, gl, color1Location);
+  _sendColorData(color2, gl, color2Location);
 };

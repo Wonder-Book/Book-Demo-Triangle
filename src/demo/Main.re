@@ -66,7 +66,7 @@ let main = () => {
 
     Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
 
-    Utils.sendModelUniformData(
+    Utils.sendModelUniformData1(
       (
         Matrix.createIdentityMatrix4() |> Matrix.setTranslation((0.75, 0., 0.)),
         (1., 0., 0.),
@@ -90,11 +90,12 @@ let main = () => {
 
     Utils.sendCameraUniformData((vMatrix, pMatrix), program2, gl);
 
-    Utils.sendModelUniformData(
+    Utils.sendModelUniformData2(
       (
         Matrix.createIdentityMatrix4()
         |> Matrix.setTranslation(((-0.), 0., 0.5)),
-        (0., 1., 0.),
+        (0., 0.8, 0.),
+        (0., 0.5, 0.),
       ),
       program2,
       gl,
@@ -116,7 +117,7 @@ let main = () => {
 
     Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
 
-    Utils.sendModelUniformData(
+    Utils.sendModelUniformData1(
       (
         Matrix.createIdentityMatrix4()
         |> Matrix.setTranslation(((-0.5), 0., (-2.))),
