@@ -5,15 +5,15 @@ let createTriangleGeometryData = () => {
 
   let vertices =
     Float32Array.make([|
-      0.0,
-      1.0,
-      (-4.0),
-      (-0.5),
-      (-1.0),
-      (-4.0),
+      0.,
       0.5,
-      (-1.0),
-      (-4.0),
+      0.0,
+      (-0.5),
+      (-0.5),
+      0.0,
+      0.5,
+      (-0.5),
+      0.0,
     |]);
 
   let indices = Uint16Array.make([|0, 1, 2|]);
