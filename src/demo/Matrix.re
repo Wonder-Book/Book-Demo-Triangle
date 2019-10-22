@@ -27,11 +27,12 @@ let setLookAt =
       (eyeX, eyeY, eyeZ) as eye,
       (centerX, centerY, centerZ) as center,
       (upX, upY, upZ) as up,
+      resultFloat32Arr,
     ) =>
   Js.Math.abs_float(eyeX -. centerX) < _getEpsilon()
   && Js.Math.abs_float(eyeY -. centerY) < _getEpsilon()
   && Js.Math.abs_float(eyeZ -. centerZ) < _getEpsilon() ?
-    createIdentityMatrix4() :
+    resultFloat32Arr :
     {
       let (z1, z2, z3) as z =
         Vector3.sub(Vector3Type.Float, eye, center) |> Vector3.normalize;
@@ -58,6 +59,25 @@ let setLookAt =
         -. Vector3.dot(z, eye),
         1.,
       |]);
+
+      Float32Array.unsafe_set(resultFloat32Arr, 0, x1);
+      Float32Array.unsafe_set(resultFloat32Arr, 1, y1);
+      Float32Array.unsafe_set(resultFloat32Arr, 2, z1);
+      Float32Array.unsafe_set(resultFloat32Arr, 3, 0.);
+      Float32Array.unsafe_set(resultFloat32Arr, 4, x2);
+      Float32Array.unsafe_set(resultFloat32Arr, 5, y2);
+      Float32Array.unsafe_set(resultFloat32Arr, 6, z2);
+      Float32Array.unsafe_set(resultFloat32Arr, 7, 0.);
+      Float32Array.unsafe_set(resultFloat32Arr, 8, x3);
+      Float32Array.unsafe_set(resultFloat32Arr, 9, y3);
+      Float32Array.unsafe_set(resultFloat32Arr, 10, z3);
+      Float32Array.unsafe_set(resultFloat32Arr, 11, 0.);
+      Float32Array.unsafe_set(resultFloat32Arr, 12, -. Vector3.dot(x, eye));
+      Float32Array.unsafe_set(resultFloat32Arr, 13, -. Vector3.dot(y, eye));
+      Float32Array.unsafe_set(resultFloat32Arr, 14, -. Vector3.dot(z, eye));
+      Float32Array.unsafe_set(resultFloat32Arr, 15, 1.);
+
+      resultFloat32Arr;
     };
 
 let buildPerspective =
@@ -106,6 +126,7 @@ let buildPerspective =
   Float32Array.unsafe_set(resultFloat32Arr, 13, 0.);
   Float32Array.unsafe_set(resultFloat32Arr, 14, (-2.) *. far *. near *. rd);
   Float32Array.unsafe_set(resultFloat32Arr, 15, 0.);
+
   resultFloat32Arr;
 };
 

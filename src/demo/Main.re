@@ -36,7 +36,8 @@ let main = () => {
     Utils.initVertexBuffers((vertices3, indices3), gl);
 
   let vMatrix =
-    Matrix.setLookAt((0., 0.0, 5.), (0., 0., (-100.)), (0., 1., 0.));
+    Matrix.createIdentityMatrix4()
+    |> Matrix.setLookAt((0., 0.0, 5.), (0., 0., (-100.)), (0., 1., 0.));
 
   let pMatrix =
     Matrix.createIdentityMatrix4()
