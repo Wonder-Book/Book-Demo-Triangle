@@ -1,4 +1,4 @@
-open Vector3Type;
+open VectorType;
 
 /* let _transformMat4ToTuple = ((x, y, z), mat4) => {
      let w =

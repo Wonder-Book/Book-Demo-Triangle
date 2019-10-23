@@ -35,11 +35,11 @@ let setLookAt =
     resultFloat32Arr :
     {
       let (z1, z2, z3) as z =
-        Vector3.sub(Vector3Type.Float, eye, center) |> Vector3.normalize;
+        Vector.sub(VectorType.Float, eye, center) |> Vector.normalize;
 
-      let (x1, x2, x3) as x = Vector3.cross(up, z) |> Vector3.normalize;
+      let (x1, x2, x3) as x = Vector.cross(up, z) |> Vector.normalize;
 
-      let (y1, y2, y3) as y = Vector3.cross(z, x) |> Vector3.normalize;
+      let (y1, y2, y3) as y = Vector.cross(z, x) |> Vector.normalize;
 
       Float32Array.make([|
         x1,
@@ -54,9 +54,9 @@ let setLookAt =
         y3,
         z3,
         0.,
-        -. Vector3.dot(x, eye),
-        -. Vector3.dot(y, eye),
-        -. Vector3.dot(z, eye),
+        -. Vector.dot(x, eye),
+        -. Vector.dot(y, eye),
+        -. Vector.dot(z, eye),
         1.,
       |]);
 
@@ -72,9 +72,9 @@ let setLookAt =
       Float32Array.unsafe_set(resultFloat32Arr, 9, y3);
       Float32Array.unsafe_set(resultFloat32Arr, 10, z3);
       Float32Array.unsafe_set(resultFloat32Arr, 11, 0.);
-      Float32Array.unsafe_set(resultFloat32Arr, 12, -. Vector3.dot(x, eye));
-      Float32Array.unsafe_set(resultFloat32Arr, 13, -. Vector3.dot(y, eye));
-      Float32Array.unsafe_set(resultFloat32Arr, 14, -. Vector3.dot(z, eye));
+      Float32Array.unsafe_set(resultFloat32Arr, 12, -. Vector.dot(x, eye));
+      Float32Array.unsafe_set(resultFloat32Arr, 13, -. Vector.dot(y, eye));
+      Float32Array.unsafe_set(resultFloat32Arr, 14, -. Vector.dot(z, eye));
       Float32Array.unsafe_set(resultFloat32Arr, 15, 1.);
 
       resultFloat32Arr;
