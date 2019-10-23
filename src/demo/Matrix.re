@@ -1,6 +1,6 @@
 open Js.Typed_array;
 
-let createIdentityMatrix4 = () =>
+let createIdentityMatrix = () =>
   Js.Typed_array.Float32Array.make([|
     1.,
     0.,

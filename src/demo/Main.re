@@ -36,11 +36,11 @@ let main = () => {
     Utils.initVertexBuffers((vertices3, indices3), gl);
 
   let vMatrix =
-    Matrix.createIdentityMatrix4()
+    Matrix.createIdentityMatrix()
     |> Matrix.setLookAt((0., 0.0, 5.), (0., 0., (-100.)), (0., 1., 0.));
 
   let pMatrix =
-    Matrix.createIdentityMatrix4()
+    Matrix.createIdentityMatrix()
     |> Matrix.buildPerspective((
          30.,
          (canvas##width |> Js.Int.toFloat)
@@ -68,7 +68,7 @@ let main = () => {
 
     Utils.sendModelUniformData1(
       (
-        Matrix.createIdentityMatrix4() |> Matrix.setTranslation((0.75, 0., 0.)),
+        Matrix.createIdentityMatrix() |> Matrix.setTranslation((0.75, 0., 0.)),
         (1., 0., 0.),
       ),
       program1,
@@ -92,7 +92,7 @@ let main = () => {
 
     Utils.sendModelUniformData2(
       (
-        Matrix.createIdentityMatrix4()
+        Matrix.createIdentityMatrix()
         |> Matrix.setTranslation(((-0.), 0., 0.5)),
         (0., 0.8, 0.),
         (0., 0.5, 0.),
@@ -119,7 +119,7 @@ let main = () => {
 
     Utils.sendModelUniformData1(
       (
-        Matrix.createIdentityMatrix4()
+        Matrix.createIdentityMatrix()
         |> Matrix.setTranslation(((-0.5), 0., (-2.))),
         (0., 0., 1.),
       ),
