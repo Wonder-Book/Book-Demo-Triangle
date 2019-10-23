@@ -41,25 +41,6 @@ let setLookAt =
 
       let (y1, y2, y3) as y = Vector.cross(z, x) |> Vector.normalize;
 
-      Float32Array.make([|
-        x1,
-        y1,
-        z1,
-        0.,
-        x2,
-        y2,
-        z2,
-        0.,
-        x3,
-        y3,
-        z3,
-        0.,
-        -. Vector.dot(x, eye),
-        -. Vector.dot(y, eye),
-        -. Vector.dot(z, eye),
-        1.,
-      |]);
-
       Float32Array.unsafe_set(resultFloat32Arr, 0, x1);
       Float32Array.unsafe_set(resultFloat32Arr, 1, y1);
       Float32Array.unsafe_set(resultFloat32Arr, 2, z1);
