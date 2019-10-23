@@ -34,8 +34,7 @@ let setLookAt =
   && Js.Math.abs_float(eyeZ -. centerZ) < _getEpsilon() ?
     resultFloat32Arr :
     {
-      let (z1, z2, z3) as z =
-        Vector.sub(VectorType.Float, eye, center) |> Vector.normalize;
+      let (z1, z2, z3) as z = Vector.sub(eye, center) |> Vector.normalize;
 
       let (x1, x2, x3) as x = Vector.cross(up, z) |> Vector.normalize;
 
