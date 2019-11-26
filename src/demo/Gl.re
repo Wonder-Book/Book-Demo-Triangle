@@ -8,11 +8,18 @@ type shader;
 
 type buffer;
 
+type vao;
+
 type attributeLocation = int;
 
 type uniformLocation;
 
-type precisionFormat = {. "precision": int};
+type bufferTarget =
+  | ArrayBuffer
+  | ElementArrayBuffer;
+
+type usage =
+  | Static;
 
 type contextConfigJsObj = {
   .
@@ -46,6 +53,12 @@ external shaderSource: (shader, string) => unit = "";
 
 [@bs.get] external getFragmentShader: webgl1Context => int = "FRAGMENT_SHADER";
 
+[@bs.get] external getHighFloat: webgl1Context => int = "HIGH_FLOAT";
+
+[@bs.get] external getMediumFloat: webgl1Context => int = "MEDIUM_FLOAT";
+
+/* [@bs.get] external getLowFloat: webgl1Context => int = "LOW_FLOAT"; */
+
 [@bs.send.pipe: webgl1Context]
 external getShaderParameter: (shader, int) => bool = "";
 
@@ -74,35 +87,53 @@ external bindAttribLocation: (program, int, string) => unit = "";
 
 [@bs.send.pipe: webgl1Context] external createBuffer: buffer = "";
 
-[@bs.get] external getArrayBuffer: webgl1Context => int = "ARRAY_BUFFER";
+[@bs.get]
+external getArrayBuffer: webgl1Context => bufferTarget = "ARRAY_BUFFER";
 
 [@bs.get]
-external getElementArrayBuffer: webgl1Context => int = "ELEMENT_ARRAY_BUFFER";
+external getElementArrayBuffer: webgl1Context => bufferTarget =
+  "ELEMENT_ARRAY_BUFFER";
 
-[@bs.send.pipe: webgl1Context] external bindBuffer: (int, buffer) => unit = "";
+[@bs.get]
+external getUniformBuffer: webgl1Context => bufferTarget = "UNIFORM_BUFFER";
+
+[@bs.send.pipe: webgl1Context]
+external bindBuffer: (bufferTarget, buffer) => unit = "";
 
 /* [@bs.send.pipe: webgl1Context]
    external resetBuffer: (int, Js.nullable(buffer)) => unit = "bindBuffer"; */
 
 [@bs.send.pipe: webgl1Context]
-external bufferFloat32Data: (int, Float32Array.t, int) => unit = "bufferData";
+external bufferFloat32Data: (bufferTarget, Float32Array.t, usage) => unit =
+  "bufferData";
+
+[@bs.send.pipe: webgl1Context]
+external bufferEmptyData: (bufferTarget, int, usage) => unit = "bufferData";
+
+[@bs.send.pipe: webgl1Context]
+external bufferSubFloat32Data: (bufferTarget, int, Float32Array.t) => unit =
+  "bufferSubData";
 
 /* [@bs.send.pipe: webgl1Context]
    external bufferFloat32DataWithCapacity: (int, int, int) => unit = "bufferData"; */
 
 [@bs.send.pipe: webgl1Context]
-external bufferUint16Data: (int, Uint16Array.t, int) => unit = "bufferData";
+external bufferUint16Data: (bufferTarget, Uint16Array.t, usage) => unit =
+  "bufferData";
 
 /* [@bs.send.pipe: webgl1Context]
    external bufferUint32Data: (int, Uint32Array.t, int) => unit = "bufferData"; */
 
-[@bs.get] external getStaticDraw: webgl1Context => int = "STATIC_DRAW";
+[@bs.get] external getStaticDraw: webgl1Context => usage = "STATIC_DRAW";
+
+[@bs.get] external getDynamicDraw: webgl1Context => usage = "DYNAMIC_DRAW";
 
 [@bs.send.pipe: webgl1Context]
 external getAttribLocation: (program, string) => attributeLocation = "";
 
 [@bs.send.pipe: webgl1Context]
-external getUniformLocation: (program, string) => uniformLocation = "";
+external getUniformLocation: (program, string) => Js.Null.t(uniformLocation) =
+  "";
 
 [@bs.send.pipe: webgl1Context]
 external vertexAttribPointer:
@@ -120,10 +151,10 @@ external enableVertexAttribArray: attributeLocation => unit = "";
 external uniformMatrix4fv: (uniformLocation, bool, Float32Array.t) => unit =
   "";
 
-/* [@bs.send.pipe: webgl1Context]
-   external uniform1i: (uniformLocation, int) => unit = "";
+[@bs.send.pipe: webgl1Context]
+external uniform1i: (uniformLocation, int) => unit = "";
 
-   [@bs.send.pipe: webgl1Context]
+/* [@bs.send.pipe: webgl1Context]
    external uniform1f: (uniformLocation, float) => unit = ""; */
 
 [@bs.send.pipe: webgl1Context]

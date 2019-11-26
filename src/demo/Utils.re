@@ -1,5 +1,7 @@
 let error = msg => Js.Exn.raiseError(msg) |> ignore;
 
+let errorAndReturn = msg => Js.Exn.raiseError(msg);
+
 let createTriangleGeometryData = () => {
   open Js.Typed_array;
 
@@ -161,9 +163,15 @@ let sendAttributeData = (vertexBuffer, program, gl) => {
   Gl.enableVertexAttribArray(positionLocation, gl);
 };
 
+let _unsafeGetUniformLocation = (program, name, gl) =>
+  switch (Gl.getUniformLocation(program, name, gl)) {
+  | pos when !Js.Null.test(pos) => Js.Null.getUnsafe(pos)
+  | _ => errorAndReturn({j|$name uniform not exist|j})
+  };
+
 let sendCameraUniformData = ((vMatrix, pMatrix), program, gl) => {
-  let vMatrixLocation = Gl.getUniformLocation(program, "u_vMatrix", gl);
-  let pMatrixLocation = Gl.getUniformLocation(program, "u_pMatrix", gl);
+  let vMatrixLocation = _unsafeGetUniformLocation(program, "u_vMatrix", gl);
+  let pMatrixLocation = _unsafeGetUniformLocation(program, "u_pMatrix", gl);
 
   Gl.uniformMatrix4fv(vMatrixLocation, false, vMatrix, gl);
   Gl.uniformMatrix4fv(pMatrixLocation, false, pMatrix, gl);
@@ -173,17 +181,17 @@ let _sendColorData = ((r, g, b), gl, colorLocation) =>
   Gl.uniform3f(colorLocation, r, g, b, gl);
 
 let sendModelUniformData1 = ((mMatrix, color), program, gl) => {
-  let mMatrixLocation = Gl.getUniformLocation(program, "u_mMatrix", gl);
-  let colorLocation = Gl.getUniformLocation(program, "u_color0", gl);
+  let mMatrixLocation = _unsafeGetUniformLocation(program, "u_mMatrix", gl);
+  let colorLocation = _unsafeGetUniformLocation(program, "u_color0", gl);
 
   Gl.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
   _sendColorData(color, gl, colorLocation);
 };
 
 let sendModelUniformData2 = ((mMatrix, color1, color2), program, gl) => {
-  let mMatrixLocation = Gl.getUniformLocation(program, "u_mMatrix", gl);
-  let color1Location = Gl.getUniformLocation(program, "u_color0", gl);
-  let color2Location = Gl.getUniformLocation(program, "u_color1", gl);
+  let mMatrixLocation = _unsafeGetUniformLocation(program, "u_mMatrix", gl);
+  let color1Location = _unsafeGetUniformLocation(program, "u_color0", gl);
+  let color2Location = _unsafeGetUniformLocation(program, "u_color1", gl);
 
   Gl.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
   _sendColorData(color1, gl, color1Location);
