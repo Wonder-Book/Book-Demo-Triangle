@@ -4,11 +4,14 @@
     "authors": "yyc",
     "license": "mit",
     "scripts": {
-        "bsb:watch": "bsb -clean-world -make-world -w",
-        "bsb:build": "bsb -clean-world -make-world"
+        "start": "http-server -c-1",
+        "watch": "bsb -clean-world -make-world -w",
+        "build": "bsb -clean-world -make-world"
     },
     "devDependencies": {
-        "bs-platform": "^5.2.0"
+        "http-server": "^0.12.0"
     },
-    "dependencies": {}
+    "dependencies": {
+        "bs-platform": "^7.0.1"
+    }
 }
