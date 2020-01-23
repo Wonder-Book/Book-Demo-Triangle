@@ -28,8 +28,8 @@ let _compileShader = (gl, glslSource: string, shader) => {
   Gl.compileShader(shader, gl);
 
   /* TODO optimize */
-  Gl.getShaderParameter(shader, Gl.getCompileStatus(gl), gl) === false ?
-    {
+  Gl.getShaderParameter(shader, Gl.getCompileStatus(gl), gl) === false
+    ? {
       let message = Gl.getShaderInfoLog(shader, gl);
 
       error(
@@ -37,10 +37,10 @@ let _compileShader = (gl, glslSource: string, shader) => {
         glsl source: $glslSource
         |j},
       );
-      /* Js.log({j|shader info log: $message|j});
-         Js.log({j|glsl source: $glslSource|j}); */
-    } :
-    ();
+    }
+    /* Js.log({j|shader info log: $message|j});
+       Js.log({j|glsl source: $glslSource|j}); */
+    : ();
 
   shader;
 };
@@ -49,14 +49,14 @@ let _linkProgram = (program, gl) => {
   Gl.linkProgram(program, gl);
 
   /* TODO optimize */
-  Gl.getProgramParameter(program, Gl.getLinkStatus(gl), gl) === false ?
-    {
+  Gl.getProgramParameter(program, Gl.getLinkStatus(gl), gl) === false
+    ? {
       let message = Gl.getProgramInfoLog(program, gl);
 
       /* Js.log({j|link program error: $message|j}); */
       error({j|link program error: $message|j});
-    } :
-    ();
+    }
+    : ();
 };
 
 let initShader = (vsSource: string, fsSource: string, gl, program) => {
@@ -146,8 +146,8 @@ let initVertexBuffers = ((vertices, indices), gl) => {
 let sendAttributeData = (vertexBuffer, program, gl) => {
   let positionLocation = Gl.getAttribLocation(program, "a_position", gl);
 
-  positionLocation === (-1) ?
-    error({j|Failed to get the storage location of a_position|j}) : ();
+  positionLocation === (-1)
+    ? error({j|Failed to get the storage location of a_position|j}) : ();
 
   Gl.bindBuffer(Gl.getArrayBuffer(gl), vertexBuffer, gl);
 
