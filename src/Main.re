@@ -1,6 +1,4 @@
-let main = () => {
-  /* TODO refactor: extract _initShader, _render func? */
-
+let _init = () => {
   let canvas = DomExtend.querySelector(DomExtend.document, "#webgl");
 
   let gl =
@@ -51,99 +49,144 @@ let main = () => {
 
   Gl.clearColor(0., 0., 0., 1., gl);
 
-  /* TODO extract state to store data */
-  let _loopBody = () => {
-    Gl.clear(Gl.getColorBufferBit(gl) lor Gl.getDepthBufferBit(gl), gl);
+  (
+    gl,
+    (program1, program2),
+    (vertices1, indices1),
+    (vertices2, indices2),
+    (vertices3, indices3),
+    (vertexBuffer1, indexBuffer1),
+    (vertexBuffer2, indexBuffer2),
+    (vertexBuffer3, indexBuffer3),
+    (vMatrix, pMatrix),
+  );
+};
 
-    Gl.enable(Gl.getDepthTest(gl), gl);
-
-    Gl.enable(Gl.getCullFace(gl), gl);
-    Gl.cullFace(Gl.getBack(gl), gl);
-
-    Gl.useProgram(program1, gl);
-
-    Utils.sendAttributeData(vertexBuffer1, program1, gl);
-
-    Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
-
-    Utils.sendModelUniformData1(
+let _render =
+    (
       (
-        Matrix.createIdentityMatrix() |> Matrix.setTranslation((0.75, 0., 0.)),
-        (1., 0., 0.),
+        gl,
+        (program1, program2),
+        (vertices1, indices1),
+        (vertices2, indices2),
+        (vertices3, indices3),
+        (vertexBuffer1, indexBuffer1),
+        (vertexBuffer2, indexBuffer2),
+        (vertexBuffer3, indexBuffer3),
+        (vMatrix, pMatrix),
       ),
-      program1,
-      gl,
-    );
+    ) => {
+  Gl.enable(Gl.getDepthTest(gl), gl);
 
-    Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer1, gl);
+  Gl.enable(Gl.getCullFace(gl), gl);
+  Gl.cullFace(Gl.getBack(gl), gl);
 
-    Gl.drawElements(
-      Gl.getTriangles(gl),
-      indices1 |> Js.Typed_array.Uint16Array.length,
-      Gl.getUnsignedShort(gl),
-      0,
-      gl,
-    );
-    Gl.useProgram(program2, gl);
+  Gl.useProgram(program1, gl);
 
-    Utils.sendAttributeData(vertexBuffer2, program2, gl);
+  Utils.sendAttributeData(vertexBuffer1, program1, gl);
 
-    Utils.sendCameraUniformData((vMatrix, pMatrix), program2, gl);
+  Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
 
-    Utils.sendModelUniformData2(
+  Utils.sendModelUniformData1(
+    (
+      Matrix.createIdentityMatrix() |> Matrix.setTranslation((0.75, 0., 0.)),
+      (1., 0., 0.),
+    ),
+    program1,
+    gl,
+  );
+
+  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer1, gl);
+
+  Gl.drawElements(
+    Gl.getTriangles(gl),
+    indices1 |> Js.Typed_array.Uint16Array.length,
+    Gl.getUnsignedShort(gl),
+    0,
+    gl,
+  );
+  Gl.useProgram(program2, gl);
+
+  Utils.sendAttributeData(vertexBuffer2, program2, gl);
+
+  Utils.sendCameraUniformData((vMatrix, pMatrix), program2, gl);
+
+  Utils.sendModelUniformData2(
+    (
+      Matrix.createIdentityMatrix() |> Matrix.setTranslation(((-0.), 0., 0.5)),
+      (0., 0.8, 0.),
+      (0., 0.5, 0.),
+    ),
+    program2,
+    gl,
+  );
+
+  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer2, gl);
+
+  Gl.drawElements(
+    Gl.getTriangles(gl),
+    indices2 |> Js.Typed_array.Uint16Array.length,
+    Gl.getUnsignedShort(gl),
+    0,
+    gl,
+  );
+
+  Gl.useProgram(program1, gl);
+
+  Utils.sendAttributeData(vertexBuffer3, program1, gl);
+
+  Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
+
+  Utils.sendModelUniformData1(
+    (
+      Matrix.createIdentityMatrix()
+      |> Matrix.setTranslation(((-0.5), 0., (-2.))),
+      (0., 0., 1.),
+    ),
+    program1,
+    gl,
+  );
+
+  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer3, gl);
+
+  Gl.drawElements(
+    Gl.getTriangles(gl),
+    indices3 |> Js.Typed_array.Uint16Array.length,
+    Gl.getUnsignedShort(gl),
+    0,
+    gl,
+  );
+};
+
+let _clearCanvas =
+    (
       (
-        Matrix.createIdentityMatrix()
-        |> Matrix.setTranslation(((-0.), 0., 0.5)),
-        (0., 0.8, 0.),
-        (0., 0.5, 0.),
-      ),
-      program2,
-      gl,
-    );
+        gl,
+        (program1, program2),
+        (vertices1, indices1),
+        (vertices2, indices2),
+        (vertices3, indices3),
+        (vertexBuffer1, indexBuffer1),
+        (vertexBuffer2, indexBuffer2),
+        (vertexBuffer3, indexBuffer3),
+        (vMatrix, pMatrix),
+      ) as data,
+    ) => {
+  Gl.clear(Gl.getColorBufferBit(gl) lor Gl.getDepthBufferBit(gl), gl);
 
-    Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer2, gl);
+  data;
+};
 
-    Gl.drawElements(
-      Gl.getTriangles(gl),
-      indices2 |> Js.Typed_array.Uint16Array.length,
-      Gl.getUnsignedShort(gl),
-      0,
-      gl,
-    );
+let _loopBody = data => {
+  data |> _clearCanvas |> _render;
+};
 
-    Gl.useProgram(program1, gl);
+let rec _loop = data =>
+  DomExtend.requestAnimationFrame((time: float) => {
+    _loopBody(data);
+    _loop(data) |> ignore;
+  });
 
-    Utils.sendAttributeData(vertexBuffer3, program1, gl);
-
-    Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
-
-    Utils.sendModelUniformData1(
-      (
-        Matrix.createIdentityMatrix()
-        |> Matrix.setTranslation(((-0.5), 0., (-2.))),
-        (0., 0., 1.),
-      ),
-      program1,
-      gl,
-    );
-
-    Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer3, gl);
-
-    Gl.drawElements(
-      Gl.getTriangles(gl),
-      indices3 |> Js.Typed_array.Uint16Array.length,
-      Gl.getUnsignedShort(gl),
-      0,
-      gl,
-    );
-  };
-
-  let rec _loop = () =>
-    DomExtend.requestAnimationFrame((time: float) => {
-      _loopBody();
-
-      _loop() |> ignore;
-    });
-
-  _loop();
+let main = () => {
+  _init() |> _loop |> ignore;
 };
