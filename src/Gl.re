@@ -8,8 +8,6 @@ type shader;
 
 type buffer;
 
-type vao;
-
 type attributeLocation = int;
 
 type uniformLocation;
