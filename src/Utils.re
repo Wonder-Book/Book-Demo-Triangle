@@ -27,7 +27,6 @@ let _compileShader = (gl, glslSource: string, shader) => {
   Gl.shaderSource(shader, glslSource, gl);
   Gl.compileShader(shader, gl);
 
-  /* TODO optimize */
   Gl.getShaderParameter(shader, Gl.getCompileStatus(gl), gl) === false
     ? {
       let message = Gl.getShaderInfoLog(shader, gl);
@@ -38,8 +37,6 @@ let _compileShader = (gl, glslSource: string, shader) => {
         |j},
       );
     }
-    /* Js.log({j|shader info log: $message|j});
-       Js.log({j|glsl source: $glslSource|j}); */
     : ();
 
   shader;
@@ -48,12 +45,10 @@ let _compileShader = (gl, glslSource: string, shader) => {
 let _linkProgram = (program, gl) => {
   Gl.linkProgram(program, gl);
 
-  /* TODO optimize */
   Gl.getProgramParameter(program, Gl.getLinkStatus(gl), gl) === false
     ? {
       let message = Gl.getProgramInfoLog(program, gl);
 
-      /* Js.log({j|link program error: $message|j}); */
       error({j|link program error: $message|j});
     }
     : ();

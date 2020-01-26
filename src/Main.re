@@ -52,9 +52,7 @@ let _init = () => {
   (
     gl,
     (program1, program2),
-    (vertices1, indices1),
-    (vertices2, indices2),
-    (vertices3, indices3),
+    (indices1, indices2, indices3),
     (vertexBuffer1, indexBuffer1),
     (vertexBuffer2, indexBuffer2),
     (vertexBuffer3, indexBuffer3),
@@ -67,9 +65,7 @@ let _render =
       (
         gl,
         (program1, program2),
-        (vertices1, indices1),
-        (vertices2, indices2),
-        (vertices3, indices3),
+        (indices1, indices2, indices3),
         (vertexBuffer1, indexBuffer1),
         (vertexBuffer2, indexBuffer2),
         (vertexBuffer3, indexBuffer3),
@@ -163,9 +159,7 @@ let _clearCanvas =
       (
         gl,
         (program1, program2),
-        (vertices1, indices1),
-        (vertices2, indices2),
-        (vertices3, indices3),
+        (indices1, indices2, indices3),
         (vertexBuffer1, indexBuffer1),
         (vertexBuffer2, indexBuffer2),
         (vertexBuffer3, indexBuffer3),

@@ -94,39 +94,18 @@ external getArrayBuffer: webgl1Context => bufferTarget = "ARRAY_BUFFER";
 external getElementArrayBuffer: webgl1Context => bufferTarget =
   "ELEMENT_ARRAY_BUFFER";
 
-[@bs.get]
-external getUniformBuffer: webgl1Context => bufferTarget = "UNIFORM_BUFFER";
-
 [@bs.send.pipe: webgl1Context]
 external bindBuffer: (bufferTarget, buffer) => unit = "";
-
-/* [@bs.send.pipe: webgl1Context]
-   external resetBuffer: (int, Js.nullable(buffer)) => unit = "bindBuffer"; */
 
 [@bs.send.pipe: webgl1Context]
 external bufferFloat32Data: (bufferTarget, Float32Array.t, usage) => unit =
   "bufferData";
 
 [@bs.send.pipe: webgl1Context]
-external bufferEmptyData: (bufferTarget, int, usage) => unit = "bufferData";
-
-[@bs.send.pipe: webgl1Context]
-external bufferSubFloat32Data: (bufferTarget, int, Float32Array.t) => unit =
-  "bufferSubData";
-
-/* [@bs.send.pipe: webgl1Context]
-   external bufferFloat32DataWithCapacity: (int, int, int) => unit = "bufferData"; */
-
-[@bs.send.pipe: webgl1Context]
 external bufferUint16Data: (bufferTarget, Uint16Array.t, usage) => unit =
   "bufferData";
 
-/* [@bs.send.pipe: webgl1Context]
-   external bufferUint32Data: (int, Uint32Array.t, int) => unit = "bufferData"; */
-
 [@bs.get] external getStaticDraw: webgl1Context => usage = "STATIC_DRAW";
-
-[@bs.get] external getDynamicDraw: webgl1Context => usage = "DYNAMIC_DRAW";
 
 [@bs.send.pipe: webgl1Context]
 external getAttribLocation: (program, string) => attributeLocation = "";
@@ -188,10 +167,6 @@ external getDepthBufferBit: webgl1Context => int = "DEPTH_BUFFER_BIT";
 [@bs.get] external getUnsignedShort: webgl1Context => int = "UNSIGNED_SHORT";
 
 [@bs.get] external getCullFace: webgl1Context => int = "CULL_FACE";
-
-/* [@bs.get] external getFrontAndBack: webgl1Context => int = "FRONT_AND_BACK"; */
-
-[@bs.send.pipe: webgl1Context] external disable: int => unit = "";
 
 [@bs.send.pipe: webgl1Context] external cullFace: int => unit = "";
 

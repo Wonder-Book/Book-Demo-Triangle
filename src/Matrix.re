@@ -31,9 +31,9 @@ let setLookAt =
     ) =>
   Js.Math.abs_float(eyeX -. centerX) < _getEpsilon()
   && Js.Math.abs_float(eyeY -. centerY) < _getEpsilon()
-  && Js.Math.abs_float(eyeZ -. centerZ) < _getEpsilon() ?
-    resultFloat32Arr :
-    {
+  && Js.Math.abs_float(eyeZ -. centerZ) < _getEpsilon()
+    ? resultFloat32Arr
+    : {
       let (z1, z2, z3) as z = Vector.sub(eye, center) |> Vector.normalize;
 
       let (x1, x2, x3) as x = Vector.cross(up, z) |> Vector.normalize;
@@ -62,29 +62,8 @@ let setLookAt =
 
 let buildPerspective =
     ((fovy: float, aspect: float, near: float, far: float), resultFloat32Arr) => {
-  /* WonderLog.Contract.requireCheck(
-       () =>
-         WonderLog.(
-           Contract.(
-             Operators.(
-               test(
-                 Log.buildAssertMessage(
-                   ~expect={j|frustum not be null|j},
-                   ~actual={j|be|j},
-                 ),
-                 () => {
-                   let fovy = Js.Math._PI *. fovy /. 180. /. 2.;
-                   Js.Math.sin(fovy) <>=. 0.;
-                 },
-               )
-             )
-           )
-         ),
-       IsDebugMainService.getIsDebug(StateDataMain.stateData),
-     ); */
-
-  Js.Math.sin(Js.Math._PI *. fovy /. 180. /. 2.) === 0. ?
-    Utils.error("frustum should not be null") : ();
+  Js.Math.sin(Js.Math._PI *. fovy /. 180. /. 2.) === 0.
+    ? Utils.error("frustum should not be null") : ();
 
   let fovy = Js.Math._PI *. fovy /. 180. /. 2.;
   let s = Js.Math.sin(fovy);
