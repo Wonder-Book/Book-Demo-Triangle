@@ -1,1 +1,1 @@
-{ "dirs" : [ "src" , "src/optimize" , "src/extract_engine" , "src/extract_editor" , "src/demo" ] , "pkgs" : [ [ "bs-platform" , "/Users/y/Github/Book-Repo/node_modules/bs-platform" ] , [ "reason-react" , "/Users/y/Github/Book-Repo/node_modules/reason-react" ] ] , "generated" : [] }
+{ "dirs" : [ "src" ] , "pkgs" : [ [ "bs-platform" , "/Users/y/Github/Book-Demo-Triangle/node_modules/bs-platform" ] ] , "generated" : [] }

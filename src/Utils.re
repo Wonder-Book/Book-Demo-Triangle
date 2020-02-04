@@ -2,7 +2,7 @@ let error = msg => Js.Exn.raiseError(msg) |> ignore;
 
 let errorAndReturn = msg => Js.Exn.raiseError(msg);
 
-let createTriangleGeometryData = () => {
+let createTriangleVertexData = () => {
   open Js.Typed_array;
 
   let vertices =

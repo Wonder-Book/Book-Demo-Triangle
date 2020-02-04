@@ -1,65 +1,57 @@
-g_std_incl = /Users/y/Github/Book-Repo/node_modules/bs-platform/lib/ocaml
-g_pkg_flg = -bs-package-name tiny-wonder-editor -bs-ns TinyWonderEditor
-src_root_dir = /Users/y/Github/Book-Repo
-bsc = /Users/y/Github/Book-Repo/node_modules/bs-platform/lib/bsc.exe
-bsdep = /Users/y/Github/Book-Repo/node_modules/bs-platform/lib/bsb_helper.exe
+g_std_incl = /Users/y/Github/Book-Demo-Triangle/node_modules/bs-platform/lib/ocaml
+g_pkg_flg = -bs-package-name tiny-wonder-demo-triangle -bs-ns TinyWonderDemoTriangle
+src_root_dir = /Users/y/Github/Book-Demo-Triangle
+bsc = /Users/y/Github/Book-Demo-Triangle/node_modules/bs-platform/lib/bsc.exe
+bsdep = /Users/y/Github/Book-Demo-Triangle/node_modules/bs-platform/lib/bsb_helper.exe
 warnings = -w -30-40+6+7+27+32..39+44+45+101-0-1-2-3-4-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25-26-27-28-29-30-31-32-33-34-35-36-37-38-39-40-41-42-43-44-45-46-47-48-49-50-51-52-53-54-55-56-57-58-59-60-61-62-101-104-K -warn-error +5+6
 bsc_flags = -bs-no-version-header -bs-super-errors
 ppx_flags = 
 g_dpkg_incls = 
-g_ns = -bs-ns TinyWonderEditor
+g_ns = -bs-ns TinyWonderDemoTriangle
 bsb_dir_group = 0
-g_lib_incls = -I . -I src/demo -I /Users/y/Github/Book-Repo/node_modules/reason-react/lib/ocaml
+g_lib_incls = -I . -I src
 rule build_ast_from_re
   command = $bsc  $warnings -color always -bs-jsx 3 $bsc_flags -o $out -bs-syntax-only -bs-binary-ast $in
   description = [34mBuilding[39m [2m${out}[22m
-build  src/demo/Gl.reast : build_ast_from_re $src_root_dir/src/demo/Gl.re
+build  src/Gl.reast : build_ast_from_re $src_root_dir/src/Gl.re
 rule build_deps
-  command = $bsdep -hash a563f425fb336fd68f40682b4e382936 $g_ns -g $bsb_dir_group $in
+  command = $bsdep -hash b77a69456eed056775949702c975c9d7 $g_ns -g $bsb_dir_group $in
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
-build  src/demo/Gl.d : build_deps src/demo/Gl.reast
+build  src/Gl.d : build_deps src/Gl.reast
 rule ml_cmj_cmi
   command = $bsc -nostdlib $g_pkg_flg -color always $g_lib_incls -I $g_std_incl $warnings $bsc_flags -o $out $in
   dyndep = $in_e.d
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
-build  src/demo/Gl-TinyWonderEditor.cmj |  src/demo/Gl-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/Gl.js : ml_cmj_cmi src/demo/Gl.reast ||  src/demo/Gl.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/GLSL.reast : build_ast_from_re $src_root_dir/src/demo/GLSL.re
-build  src/demo/GLSL.d : build_deps src/demo/GLSL.reast
-build  src/demo/GLSL-TinyWonderEditor.cmj |  src/demo/GLSL-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/GLSL.js : ml_cmj_cmi src/demo/GLSL.reast ||  src/demo/GLSL.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/Main.reast : build_ast_from_re $src_root_dir/src/demo/Main.re
-build  src/demo/Main.d : build_deps src/demo/Main.reast
-build  src/demo/Main-TinyWonderEditor.cmj |  src/demo/Main-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/Main.js : ml_cmj_cmi src/demo/Main.reast ||  src/demo/Main.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/Utils.reast : build_ast_from_re $src_root_dir/src/demo/Utils.re
-build  src/demo/Utils.d : build_deps src/demo/Utils.reast
-build  src/demo/Utils-TinyWonderEditor.cmj |  src/demo/Utils-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/Utils.js : ml_cmj_cmi src/demo/Utils.reast ||  src/demo/Utils.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/GlType.reast : build_ast_from_re $src_root_dir/src/demo/GlType.re
-build  src/demo/GlType.d : build_deps src/demo/GlType.reast
-build  src/demo/GlType-TinyWonderEditor.cmj |  src/demo/GlType-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/GlType.js : ml_cmj_cmi src/demo/GlType.reast ||  src/demo/GlType.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/Matrix.reast : build_ast_from_re $src_root_dir/src/demo/Matrix.re
-build  src/demo/Matrix.d : build_deps src/demo/Matrix.reast
-build  src/demo/Matrix-TinyWonderEditor.cmj |  src/demo/Matrix-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/Matrix.js : ml_cmj_cmi src/demo/Matrix.reast ||  src/demo/Matrix.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/Vector3.reast : build_ast_from_re $src_root_dir/src/demo/Vector3.re
-build  src/demo/Vector3.d : build_deps src/demo/Vector3.reast
-build  src/demo/Vector3-TinyWonderEditor.cmj |  src/demo/Vector3-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/Vector3.js : ml_cmj_cmi src/demo/Vector3.reast ||  src/demo/Vector3.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/DomExtend.reast : build_ast_from_re $src_root_dir/src/demo/DomExtend.re
-build  src/demo/DomExtend.d : build_deps src/demo/DomExtend.reast
-build  src/demo/DomExtend-TinyWonderEditor.cmj |  src/demo/DomExtend-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/DomExtend.js : ml_cmj_cmi src/demo/DomExtend.reast ||  src/demo/DomExtend.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
-build  src/demo/DomExtendType.reast : build_ast_from_re $src_root_dir/src/demo/DomExtendType.re
-build  src/demo/DomExtendType.d : build_deps src/demo/DomExtendType.reast
-build  src/demo/DomExtendType-TinyWonderEditor.cmj |  src/demo/DomExtendType-TinyWonderEditor.cmi $src_root_dir/lib/es6_global/src/demo/DomExtendType.js : ml_cmj_cmi src/demo/DomExtendType.reast ||  src/demo/DomExtendType.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src/demo
+build  src/Gl-TinyWonderDemoTriangle.cmj |  src/Gl-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Gl.js : ml_cmj_cmi src/Gl.reast ||  src/Gl.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/GLSL.reast : build_ast_from_re $src_root_dir/src/GLSL.re
+build  src/GLSL.d : build_deps src/GLSL.reast
+build  src/GLSL-TinyWonderDemoTriangle.cmj |  src/GLSL-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/GLSL.js : ml_cmj_cmi src/GLSL.reast ||  src/GLSL.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/Main.reast : build_ast_from_re $src_root_dir/src/Main.re
+build  src/Main.d : build_deps src/Main.reast
+build  src/Main-TinyWonderDemoTriangle.cmj |  src/Main-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Main.js : ml_cmj_cmi src/Main.reast ||  src/Main.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/Utils.reast : build_ast_from_re $src_root_dir/src/Utils.re
+build  src/Utils.d : build_deps src/Utils.reast
+build  src/Utils-TinyWonderDemoTriangle.cmj |  src/Utils-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Utils.js : ml_cmj_cmi src/Utils.reast ||  src/Utils.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/Matrix.reast : build_ast_from_re $src_root_dir/src/Matrix.re
+build  src/Matrix.d : build_deps src/Matrix.reast
+build  src/Matrix-TinyWonderDemoTriangle.cmj |  src/Matrix-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Matrix.js : ml_cmj_cmi src/Matrix.reast ||  src/Matrix.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/Vector.reast : build_ast_from_re $src_root_dir/src/Vector.re
+build  src/Vector.d : build_deps src/Vector.reast
+build  src/Vector-TinyWonderDemoTriangle.cmj |  src/Vector-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Vector.js : ml_cmj_cmi src/Vector.reast ||  src/Vector.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/DomExtend.reast : build_ast_from_re $src_root_dir/src/DomExtend.re
+build  src/DomExtend.d : build_deps src/DomExtend.reast
+build  src/DomExtend-TinyWonderDemoTriangle.cmj |  src/DomExtend-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/DomExtend.js : ml_cmj_cmi src/DomExtend.reast ||  src/DomExtend.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
 rule build_package
   command = $bsc -w -49 -color always -no-alias-deps  $in
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
-build  TinyWonderEditor.cmi : build_package TinyWonderEditor.mlmap
+build  TinyWonderDemoTriangle.cmi : build_package TinyWonderDemoTriangle.mlmap

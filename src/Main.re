@@ -20,9 +20,9 @@ let _init = () => {
   let program2 =
     gl |> Gl.createProgram |> Utils.initShader(GLSL.vs2, GLSL.fs2, gl);
 
-  let (vertices1, indices1) = Utils.createTriangleGeometryData();
-  let (vertices2, indices2) = Utils.createTriangleGeometryData();
-  let (vertices3, indices3) = Utils.createTriangleGeometryData();
+  let (vertices1, indices1) = Utils.createTriangleVertexData();
+  let (vertices2, indices2) = Utils.createTriangleVertexData();
+  let (vertices3, indices3) = Utils.createTriangleVertexData();
 
   let (vertexBuffer1, indexBuffer1) =
     Utils.initVertexBuffers((vertices1, indices1), gl);
