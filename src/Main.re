@@ -33,19 +33,29 @@ let _init = () => {
   let (vertexBuffer3, indexBuffer3) =
     Utils.initVertexBuffers((vertices3, indices3), gl);
 
-  let vMatrix =
-    Matrix.createIdentityMatrix()
-    |> Matrix.setLookAt((0., 0.0, 5.), (0., 0., (-100.)), (0., 1., 0.));
+  let (translation1, translation2, translation3) = (
+    (0.75, 0., 0.),
+    ((-0.), 0., 0.5),
+    ((-0.5), 0., (-2.)),
+  );
 
-  let pMatrix =
-    Matrix.createIdentityMatrix()
-    |> Matrix.buildPerspective((
-         30.,
-         (canvas##width |> Js.Int.toFloat)
-         /. (canvas##height |> Js.Int.toFloat),
-         1.,
-         100.,
-       ));
+  let (color1, (color2_1, color2_2), color3) = (
+    (1., 0., 0.),
+    ((0., 0.8, 0.), (0., 0.5, 0.)),
+    (0., 0., 1.),
+  );
+
+  let ((eyeX, eyeY, eyeZ), (centerX, centerY, centerZ), (upX, upY, upZ)) = (
+    (0., 0.0, 5.),
+    (0., 0., (-100.)),
+    (0., 1., 0.),
+  );
+  let (near, far, fovy, aspect) = (
+    30.,
+    (canvas##width |> Js.Int.toFloat) /. (canvas##height |> Js.Int.toFloat),
+    1.,
+    100.,
+  );
 
   Gl.clearColor(0., 0., 0., 1., gl);
 
@@ -56,7 +66,12 @@ let _init = () => {
     (vertexBuffer1, indexBuffer1),
     (vertexBuffer2, indexBuffer2),
     (vertexBuffer3, indexBuffer3),
-    (vMatrix, pMatrix),
+    (translation1, translation2, translation3),
+    (color1, (color2_1, color2_2), color3),
+    (
+      ((eyeX, eyeY, eyeZ), (centerX, centerY, centerZ), (upX, upY, upZ)),
+      (near, far, fovy, aspect),
+    ),
   );
 };
 
@@ -69,7 +84,16 @@ let _render =
         (vertexBuffer1, indexBuffer1),
         (vertexBuffer2, indexBuffer2),
         (vertexBuffer3, indexBuffer3),
-        (vMatrix, pMatrix),
+        (translation1, translation2, translation3),
+        (color1, (color2_1, color2_2), color3),
+        (
+          (
+            (eyeX, eyeY, eyeZ),
+            (centerX, centerY, centerZ),
+            (upX, upY, upZ),
+          ),
+          (near, far, fovy, aspect),
+        ),
       ),
     ) => {
   Gl.enable(Gl.getDepthTest(gl), gl);
@@ -77,20 +101,31 @@ let _render =
   Gl.enable(Gl.getCullFace(gl), gl);
   Gl.cullFace(Gl.getBack(gl), gl);
 
+  let vMatrix =
+    Matrix.createIdentityMatrix()
+    |> Matrix.setLookAt(
+         (eyeX, eyeY, eyeZ),
+         (centerX, centerY, centerZ),
+         (upX, upY, upZ),
+       );
+  let pMatrix =
+    Matrix.createIdentityMatrix()
+    |> Matrix.buildPerspective((near, far, fovy, aspect));
+
+  let mMatrix1 =
+    Matrix.createIdentityMatrix() |> Matrix.setTranslation(translation1);
+  let mMatrix2 =
+    Matrix.createIdentityMatrix() |> Matrix.setTranslation(translation2);
+  let mMatrix3 =
+    Matrix.createIdentityMatrix() |> Matrix.setTranslation(translation3);
+
   Gl.useProgram(program1, gl);
 
   Utils.sendAttributeData(vertexBuffer1, program1, gl);
 
   Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
 
-  Utils.sendModelUniformData1(
-    (
-      Matrix.createIdentityMatrix() |> Matrix.setTranslation((0.75, 0., 0.)),
-      (1., 0., 0.),
-    ),
-    program1,
-    gl,
-  );
+  Utils.sendModelUniformData1((mMatrix1, color1), program1, gl);
 
   Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer1, gl);
 
@@ -101,21 +136,14 @@ let _render =
     0,
     gl,
   );
+
   Gl.useProgram(program2, gl);
 
   Utils.sendAttributeData(vertexBuffer2, program2, gl);
 
   Utils.sendCameraUniformData((vMatrix, pMatrix), program2, gl);
 
-  Utils.sendModelUniformData2(
-    (
-      Matrix.createIdentityMatrix() |> Matrix.setTranslation(((-0.), 0., 0.5)),
-      (0., 0.8, 0.),
-      (0., 0.5, 0.),
-    ),
-    program2,
-    gl,
-  );
+  Utils.sendModelUniformData2((mMatrix2, color2_1, color2_2), program2, gl);
 
   Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer2, gl);
 
@@ -133,15 +161,7 @@ let _render =
 
   Utils.sendCameraUniformData((vMatrix, pMatrix), program1, gl);
 
-  Utils.sendModelUniformData1(
-    (
-      Matrix.createIdentityMatrix()
-      |> Matrix.setTranslation(((-0.5), 0., (-2.))),
-      (0., 0., 1.),
-    ),
-    program1,
-    gl,
-  );
+  Utils.sendModelUniformData1((mMatrix3, color3), program1, gl);
 
   Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer3, gl);
 
@@ -154,18 +174,7 @@ let _render =
   );
 };
 
-let _clearCanvas =
-    (
-      (
-        gl,
-        (program1, program2),
-        (indices1, indices2, indices3),
-        (vertexBuffer1, indexBuffer1),
-        (vertexBuffer2, indexBuffer2),
-        (vertexBuffer3, indexBuffer3),
-        (vMatrix, pMatrix),
-      ) as data,
-    ) => {
+let _clearCanvas = ((gl, _, _, _, _, _, _, _, _) as data) => {
   Gl.clear(Gl.getColorBufferBit(gl) lor Gl.getDepthBufferBit(gl), gl);
 
   data;
