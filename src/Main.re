@@ -57,20 +57,20 @@ let _init = () => {
     100.,
   );
 
-  Gl.clearColor(0., 0., 0., 1., gl);
-
   (
     gl,
-    (program1, program2),
-    (indices1, indices2, indices3),
-    (vertexBuffer1, indexBuffer1),
-    (vertexBuffer2, indexBuffer2),
-    (vertexBuffer3, indexBuffer3),
-    (translation1, translation2, translation3),
-    (color1, (color2_1, color2_2), color3),
     (
-      ((eyeX, eyeY, eyeZ), (centerX, centerY, centerZ), (upX, upY, upZ)),
-      (near, far, fovy, aspect),
+      (program1, program2),
+      (indices1, indices2, indices3),
+      (vertexBuffer1, indexBuffer1),
+      (vertexBuffer2, indexBuffer2),
+      (vertexBuffer3, indexBuffer3),
+      (translation1, translation2, translation3),
+      (color1, (color2_1, color2_2), color3),
+      (
+        ((eyeX, eyeY, eyeZ), (centerX, centerY, centerZ), (upX, upY, upZ)),
+        (near, far, fovy, aspect),
+      ),
     ),
   );
 };
@@ -79,20 +79,22 @@ let _render =
     (
       (
         gl,
-        (program1, program2),
-        (indices1, indices2, indices3),
-        (vertexBuffer1, indexBuffer1),
-        (vertexBuffer2, indexBuffer2),
-        (vertexBuffer3, indexBuffer3),
-        (translation1, translation2, translation3),
-        (color1, (color2_1, color2_2), color3),
         (
+          (program1, program2),
+          (indices1, indices2, indices3),
+          (vertexBuffer1, indexBuffer1),
+          (vertexBuffer2, indexBuffer2),
+          (vertexBuffer3, indexBuffer3),
+          (translation1, translation2, translation3),
+          (color1, (color2_1, color2_2), color3),
           (
-            (eyeX, eyeY, eyeZ),
-            (centerX, centerY, centerZ),
-            (upX, upY, upZ),
+            (
+              (eyeX, eyeY, eyeZ),
+              (centerX, centerY, centerZ),
+              (upX, upY, upZ),
+            ),
+            (near, far, fovy, aspect),
           ),
-          (near, far, fovy, aspect),
         ),
       ),
     ) => {
@@ -174,14 +176,20 @@ let _render =
   );
 };
 
-let _clearCanvas = ((gl, _, _, _, _, _, _, _, _) as data) => {
+let _clearColor = ((gl, sceneData) as data) => {
+  Gl.clearColor(0., 0., 0., 1., gl);
+
+  data;
+};
+
+let _clearCanvas = ((gl, sceneData) as data) => {
   Gl.clear(Gl.getColorBufferBit(gl) lor Gl.getDepthBufferBit(gl), gl);
 
   data;
 };
 
 let _loopBody = data => {
-  data |> _clearCanvas |> _render;
+  data |> _clearColor |> _clearCanvas |> _render;
 };
 
 let rec _loop = data =>
