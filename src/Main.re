@@ -51,10 +51,10 @@ let _init = () => {
     (0., 1., 0.),
   );
   let (near, far, fovy, aspect) = (
-    30.,
-    (canvas##width |> Js.Int.toFloat) /. (canvas##height |> Js.Int.toFloat),
     1.,
     100.,
+    30.,
+    (canvas##width |> Js.Int.toFloat) /. (canvas##height |> Js.Int.toFloat),
   );
 
   (
