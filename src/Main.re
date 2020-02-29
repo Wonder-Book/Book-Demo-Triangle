@@ -33,7 +33,7 @@ let _init = () => {
   let (vertexBuffer3, indexBuffer3) =
     Utils.initVertexBuffers((vertices3, indices3), gl);
 
-  let (translation1, translation2, translation3) = (
+  let (position1, position2, position3) = (
     (0.75, 0., 0.),
     ((-0.), 0., 0.5),
     ((-0.5), 0., (-2.)),
@@ -65,7 +65,7 @@ let _init = () => {
       (vertexBuffer1, indexBuffer1),
       (vertexBuffer2, indexBuffer2),
       (vertexBuffer3, indexBuffer3),
-      (translation1, translation2, translation3),
+      (position1, position2, position3),
       (color1, (color2_1, color2_2), color3),
       (
         ((eyeX, eyeY, eyeZ), (centerX, centerY, centerZ), (upX, upY, upZ)),
@@ -85,7 +85,7 @@ let _render =
           (vertexBuffer1, indexBuffer1),
           (vertexBuffer2, indexBuffer2),
           (vertexBuffer3, indexBuffer3),
-          (translation1, translation2, translation3),
+          (position1, position2, position3),
           (color1, (color2_1, color2_2), color3),
           (
             (
@@ -115,11 +115,11 @@ let _render =
     |> Matrix.buildPerspective((near, far, fovy, aspect));
 
   let mMatrix1 =
-    Matrix.createIdentityMatrix() |> Matrix.setTranslation(translation1);
+    Matrix.createIdentityMatrix() |> Matrix.setTranslation(position1);
   let mMatrix2 =
-    Matrix.createIdentityMatrix() |> Matrix.setTranslation(translation2);
+    Matrix.createIdentityMatrix() |> Matrix.setTranslation(position2);
   let mMatrix3 =
-    Matrix.createIdentityMatrix() |> Matrix.setTranslation(translation3);
+    Matrix.createIdentityMatrix() |> Matrix.setTranslation(position3);
 
   Gl.useProgram(program1, gl);
 
