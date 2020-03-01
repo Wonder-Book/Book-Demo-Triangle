@@ -1,6 +1,4 @@
-let error = msg => Js.Exn.raiseError(msg) |> ignore;
-
-let errorAndReturn = msg => Js.Exn.raiseError(msg);
+let error = msg => Js.Exn.raiseError(msg);
 
 let createTriangleVertexData = () => {
   open Js.Typed_array;
@@ -27,7 +25,8 @@ let _compileShader = (gl, glslSource: string, shader) => {
   WebGL1.shaderSource(shader, glslSource, gl);
   WebGL1.compileShader(shader, gl);
 
-  WebGL1.getShaderParameter(shader, WebGL1.getCompileStatus(gl), gl) === false
+  WebGL1.getShaderParameter(shader, WebGL1.getCompileStatus(gl), gl)
+  === false
     ? {
       let message = WebGL1.getShaderInfoLog(shader, gl);
 
@@ -161,7 +160,7 @@ let sendAttributeData = (vertexBuffer, program, gl) => {
 let _unsafeGetUniformLocation = (program, name, gl) =>
   switch (WebGL1.getUniformLocation(program, name, gl)) {
   | pos when !Js.Null.test(pos) => Js.Null.getUnsafe(pos)
-  | _ => errorAndReturn({j|$name uniform not exist|j})
+  | _ => error({j|$name uniform not exist|j})
   };
 
 let sendCameraUniformData = ((vMatrix, pMatrix), program, gl) => {
