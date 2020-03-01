@@ -112,7 +112,7 @@ let _render =
        );
   let pMatrix =
     Matrix.createIdentityMatrix()
-    |> Matrix.buildPerspective((near, far, fovy, aspect));
+    |> Matrix.buildPerspective((fovy, aspect, near, far));
 
   let mMatrix1 =
     Matrix.createIdentityMatrix() |> Matrix.setTranslation(position1);
@@ -183,7 +183,10 @@ let _clearColor = ((gl, sceneData) as data) => {
 };
 
 let _clearCanvas = ((gl, sceneData) as data) => {
-  WebGL1.clear(WebGL1.getColorBufferBit(gl) lor WebGL1.getDepthBufferBit(gl), gl);
+  WebGL1.clear(
+    WebGL1.getColorBufferBit(gl) lor WebGL1.getDepthBufferBit(gl),
+    gl,
+  );
 
   data;
 };

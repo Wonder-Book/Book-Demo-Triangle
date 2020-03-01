@@ -40,3 +40,12 @@
 206	240	1583030141793757427	/Users/y/Github/Book-Demo-Triangle/lib/es6_global/src/Utils.js	c678e83440847dc6
 240	266	1583030141822609203	src/Matrix-TinyWonderDemoTriangle.cmj	cdb45eecc6e5e306
 240	266	1583030141822609203	/Users/y/Github/Book-Demo-Triangle/lib/es6_global/src/Matrix.js	cdb45eecc6e5e306
+1	39	1583030215054422922	src/Main.reast	2500d2722cd123ca
+39	52	1583030215054422922	src/Main.d	2fb41a63c8d5b43b
+0	32	1583030216069352076	src/Main.reast	2500d2722cd123ca
+32	39	1583030216069352076	src/Main.d	2fb41a63c8d5b43b
+1	39	1583030218416842358	src/Main.reast	2500d2722cd123ca
+40	46	1583030218416842358	src/Main.d	2fb41a63c8d5b43b
+46	79	1583030218416842358	src/Main-TinyWonderDemoTriangle.cmj	a0407172f101f5cd
+46	79	1583030218416842358	src/Main-TinyWonderDemoTriangle.cmi	a0407172f101f5cd
+46	79	1583030218416842358	/Users/y/Github/Book-Demo-Triangle/lib/es6_global/src/Main.js	a0407172f101f5cd
