@@ -2,7 +2,7 @@ let _init = () => {
   let canvas = DomExtend.querySelector(DomExtend.document, "#webgl");
 
   let gl =
-    Gl.getWebgl1Context(
+    Gl.getWebGL1Context(
       canvas,
       {
         "alpha": true,

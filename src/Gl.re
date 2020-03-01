@@ -30,7 +30,7 @@ type contextConfigJsObj = {
 };
 
 [@bs.send]
-external getWebgl1Context:
+external getWebGL1Context:
   ('canvas, [@bs.as "webgl"] _, contextConfigJsObj) => webgl1Context =
   "getContext";
 
