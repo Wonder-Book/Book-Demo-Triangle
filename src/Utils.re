@@ -24,12 +24,12 @@ let createTriangleVertexData = () => {
 };
 
 let _compileShader = (gl, glslSource: string, shader) => {
-  Gl.shaderSource(shader, glslSource, gl);
-  Gl.compileShader(shader, gl);
+  WebGL1.shaderSource(shader, glslSource, gl);
+  WebGL1.compileShader(shader, gl);
 
-  Gl.getShaderParameter(shader, Gl.getCompileStatus(gl), gl) === false
+  WebGL1.getShaderParameter(shader, WebGL1.getCompileStatus(gl), gl) === false
     ? {
-      let message = Gl.getShaderInfoLog(shader, gl);
+      let message = WebGL1.getShaderInfoLog(shader, gl);
 
       error(
         {j|shader info log: $message
@@ -43,11 +43,11 @@ let _compileShader = (gl, glslSource: string, shader) => {
 };
 
 let _linkProgram = (program, gl) => {
-  Gl.linkProgram(program, gl);
+  WebGL1.linkProgram(program, gl);
 
-  Gl.getProgramParameter(program, Gl.getLinkStatus(gl), gl) === false
+  WebGL1.getProgramParameter(program, WebGL1.getLinkStatus(gl), gl) === false
     ? {
-      let message = Gl.getProgramInfoLog(program, gl);
+      let message = WebGL1.getProgramInfoLog(program, gl);
 
       error({j|link program error: $message|j});
     }
@@ -59,17 +59,17 @@ let initShader = (vsSource: string, fsSource: string, gl, program) => {
     _compileShader(
       gl,
       vsSource,
-      Gl.createShader(Gl.getVertexShader(gl), gl),
+      WebGL1.createShader(WebGL1.getVertexShader(gl), gl),
     );
   let fs =
     _compileShader(
       gl,
       fsSource,
-      Gl.createShader(Gl.getFragmentShader(gl), gl),
+      WebGL1.createShader(WebGL1.getFragmentShader(gl), gl),
     );
 
-  Gl.attachShader(program, vs, gl);
-  Gl.attachShader(program, fs, gl);
+  WebGL1.attachShader(program, vs, gl);
+  WebGL1.attachShader(program, fs, gl);
 
   /*!
     if warn:"Attribute 0 is disabled. This has significant performance penalty" when run,
@@ -94,7 +94,7 @@ let initShader = (vsSource: string, fsSource: string, gl, program) => {
   /*!
     Always have vertex attrib 0 array enabled. If you draw with vertex attrib 0 array disabled, you will force the browser to do complicated emulation when running on desktop OpenGL (e.g. on Mac OSX). This is because in desktop OpenGL, nothing gets drawn if vertex attrib 0 is not array-enabled. You can use bindAttribLocation() to force a vertex attribute to use location 0, and use enableVertexAttribArray() to make it array-enabled.
     */
-  Gl.bindAttribLocation(program, 0, "a_position", gl);
+  WebGL1.bindAttribLocation(program, 0, "a_position", gl);
 
   _linkProgram(program, gl);
 
@@ -106,32 +106,32 @@ let initShader = (vsSource: string, fsSource: string, gl, program) => {
 
     "Deleting" the shader, as with all OpenGL objects, merely sets a flag that says you don't need it any more. OpenGL will keep it around for as long as it needs it itself, and will do the actual delete any time later (most likely, but not necessarily, after the program is deleted).
     */
-  Gl.deleteShader(vs, gl);
-  Gl.deleteShader(fs, gl);
+  WebGL1.deleteShader(vs, gl);
+  WebGL1.deleteShader(fs, gl);
 
   program;
 };
 
 let initVertexBuffers = ((vertices, indices), gl) => {
-  let vertexBuffer = Gl.createBuffer(gl);
+  let vertexBuffer = WebGL1.createBuffer(gl);
 
-  Gl.bindBuffer(Gl.getArrayBuffer(gl), vertexBuffer, gl);
+  WebGL1.bindBuffer(WebGL1.getArrayBuffer(gl), vertexBuffer, gl);
 
-  Gl.bufferFloat32Data(
-    Gl.getArrayBuffer(gl),
+  WebGL1.bufferFloat32Data(
+    WebGL1.getArrayBuffer(gl),
     vertices,
-    Gl.getStaticDraw(gl),
+    WebGL1.getStaticDraw(gl),
     gl,
   );
 
-  let indexBuffer = Gl.createBuffer(gl);
+  let indexBuffer = WebGL1.createBuffer(gl);
 
-  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer, gl);
+  WebGL1.bindBuffer(WebGL1.getElementArrayBuffer(gl), indexBuffer, gl);
 
-  Gl.bufferUint16Data(
-    Gl.getElementArrayBuffer(gl),
+  WebGL1.bufferUint16Data(
+    WebGL1.getElementArrayBuffer(gl),
     indices,
-    Gl.getStaticDraw(gl),
+    WebGL1.getStaticDraw(gl),
     gl,
   );
 
@@ -139,27 +139,27 @@ let initVertexBuffers = ((vertices, indices), gl) => {
 };
 
 let sendAttributeData = (vertexBuffer, program, gl) => {
-  let positionLocation = Gl.getAttribLocation(program, "a_position", gl);
+  let positionLocation = WebGL1.getAttribLocation(program, "a_position", gl);
 
   positionLocation === (-1)
     ? error({j|Failed to get the storage location of a_position|j}) : ();
 
-  Gl.bindBuffer(Gl.getArrayBuffer(gl), vertexBuffer, gl);
+  WebGL1.bindBuffer(WebGL1.getArrayBuffer(gl), vertexBuffer, gl);
 
-  Gl.vertexAttribPointer(
+  WebGL1.vertexAttribPointer(
     positionLocation,
     3,
-    Gl.getFloat(gl),
+    WebGL1.getFloat(gl),
     false,
     0,
     0,
     gl,
   );
-  Gl.enableVertexAttribArray(positionLocation, gl);
+  WebGL1.enableVertexAttribArray(positionLocation, gl);
 };
 
 let _unsafeGetUniformLocation = (program, name, gl) =>
-  switch (Gl.getUniformLocation(program, name, gl)) {
+  switch (WebGL1.getUniformLocation(program, name, gl)) {
   | pos when !Js.Null.test(pos) => Js.Null.getUnsafe(pos)
   | _ => errorAndReturn({j|$name uniform not exist|j})
   };
@@ -168,18 +168,18 @@ let sendCameraUniformData = ((vMatrix, pMatrix), program, gl) => {
   let vMatrixLocation = _unsafeGetUniformLocation(program, "u_vMatrix", gl);
   let pMatrixLocation = _unsafeGetUniformLocation(program, "u_pMatrix", gl);
 
-  Gl.uniformMatrix4fv(vMatrixLocation, false, vMatrix, gl);
-  Gl.uniformMatrix4fv(pMatrixLocation, false, pMatrix, gl);
+  WebGL1.uniformMatrix4fv(vMatrixLocation, false, vMatrix, gl);
+  WebGL1.uniformMatrix4fv(pMatrixLocation, false, pMatrix, gl);
 };
 
 let _sendColorData = ((r, g, b), gl, colorLocation) =>
-  Gl.uniform3f(colorLocation, r, g, b, gl);
+  WebGL1.uniform3f(colorLocation, r, g, b, gl);
 
 let sendModelUniformData1 = ((mMatrix, color), program, gl) => {
   let mMatrixLocation = _unsafeGetUniformLocation(program, "u_mMatrix", gl);
   let colorLocation = _unsafeGetUniformLocation(program, "u_color0", gl);
 
-  Gl.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
+  WebGL1.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
   _sendColorData(color, gl, colorLocation);
 };
 
@@ -188,7 +188,7 @@ let sendModelUniformData2 = ((mMatrix, color1, color2), program, gl) => {
   let color1Location = _unsafeGetUniformLocation(program, "u_color0", gl);
   let color2Location = _unsafeGetUniformLocation(program, "u_color1", gl);
 
-  Gl.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
+  WebGL1.uniformMatrix4fv(mMatrixLocation, false, mMatrix, gl);
   _sendColorData(color1, gl, color1Location);
   _sendColorData(color2, gl, color2Location);
 };

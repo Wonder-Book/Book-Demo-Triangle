@@ -2,7 +2,7 @@ let _init = () => {
   let canvas = DomExtend.querySelector(DomExtend.document, "#webgl");
 
   let gl =
-    Gl.getWebGL1Context(
+    WebGL1.getWebGL1Context(
       canvas,
       {
         "alpha": true,
@@ -11,14 +11,14 @@ let _init = () => {
         "antialias": true,
         "premultipliedAlpha": true,
         "preserveDrawingBuffer": false,
-      }: Gl.contextConfigJsObj,
+      }: WebGL1.contextConfigJsObj,
     );
 
   let program1 =
-    gl |> Gl.createProgram |> Utils.initShader(GLSL.vs1, GLSL.fs1, gl);
+    gl |> WebGL1.createProgram |> Utils.initShader(GLSL.vs1, GLSL.fs1, gl);
 
   let program2 =
-    gl |> Gl.createProgram |> Utils.initShader(GLSL.vs2, GLSL.fs2, gl);
+    gl |> WebGL1.createProgram |> Utils.initShader(GLSL.vs2, GLSL.fs2, gl);
 
   let (vertices1, indices1) = Utils.createTriangleVertexData();
   let (vertices2, indices2) = Utils.createTriangleVertexData();
@@ -98,10 +98,10 @@ let _render =
         ),
       ),
     ) => {
-  Gl.enable(Gl.getDepthTest(gl), gl);
+  WebGL1.enable(WebGL1.getDepthTest(gl), gl);
 
-  Gl.enable(Gl.getCullFace(gl), gl);
-  Gl.cullFace(Gl.getBack(gl), gl);
+  WebGL1.enable(WebGL1.getCullFace(gl), gl);
+  WebGL1.cullFace(WebGL1.getBack(gl), gl);
 
   let vMatrix =
     Matrix.createIdentityMatrix()
@@ -121,7 +121,7 @@ let _render =
   let mMatrix3 =
     Matrix.createIdentityMatrix() |> Matrix.setTranslation(position3);
 
-  Gl.useProgram(program1, gl);
+  WebGL1.useProgram(program1, gl);
 
   Utils.sendAttributeData(vertexBuffer1, program1, gl);
 
@@ -129,17 +129,17 @@ let _render =
 
   Utils.sendModelUniformData1((mMatrix1, color1), program1, gl);
 
-  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer1, gl);
+  WebGL1.bindBuffer(WebGL1.getElementArrayBuffer(gl), indexBuffer1, gl);
 
-  Gl.drawElements(
-    Gl.getTriangles(gl),
+  WebGL1.drawElements(
+    WebGL1.getTriangles(gl),
     indices1 |> Js.Typed_array.Uint16Array.length,
-    Gl.getUnsignedShort(gl),
+    WebGL1.getUnsignedShort(gl),
     0,
     gl,
   );
 
-  Gl.useProgram(program2, gl);
+  WebGL1.useProgram(program2, gl);
 
   Utils.sendAttributeData(vertexBuffer2, program2, gl);
 
@@ -147,17 +147,17 @@ let _render =
 
   Utils.sendModelUniformData2((mMatrix2, color2_1, color2_2), program2, gl);
 
-  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer2, gl);
+  WebGL1.bindBuffer(WebGL1.getElementArrayBuffer(gl), indexBuffer2, gl);
 
-  Gl.drawElements(
-    Gl.getTriangles(gl),
+  WebGL1.drawElements(
+    WebGL1.getTriangles(gl),
     indices2 |> Js.Typed_array.Uint16Array.length,
-    Gl.getUnsignedShort(gl),
+    WebGL1.getUnsignedShort(gl),
     0,
     gl,
   );
 
-  Gl.useProgram(program1, gl);
+  WebGL1.useProgram(program1, gl);
 
   Utils.sendAttributeData(vertexBuffer3, program1, gl);
 
@@ -165,25 +165,25 @@ let _render =
 
   Utils.sendModelUniformData1((mMatrix3, color3), program1, gl);
 
-  Gl.bindBuffer(Gl.getElementArrayBuffer(gl), indexBuffer3, gl);
+  WebGL1.bindBuffer(WebGL1.getElementArrayBuffer(gl), indexBuffer3, gl);
 
-  Gl.drawElements(
-    Gl.getTriangles(gl),
+  WebGL1.drawElements(
+    WebGL1.getTriangles(gl),
     indices3 |> Js.Typed_array.Uint16Array.length,
-    Gl.getUnsignedShort(gl),
+    WebGL1.getUnsignedShort(gl),
     0,
     gl,
   );
 };
 
 let _clearColor = ((gl, sceneData) as data) => {
-  Gl.clearColor(0., 0., 0., 1., gl);
+  WebGL1.clearColor(0., 0., 0., 1., gl);
 
   data;
 };
 
 let _clearCanvas = ((gl, sceneData) as data) => {
-  Gl.clear(Gl.getColorBufferBit(gl) lor Gl.getDepthBufferBit(gl), gl);
+  WebGL1.clear(WebGL1.getColorBufferBit(gl) lor WebGL1.getDepthBufferBit(gl), gl);
 
   data;
 };

@@ -13,21 +13,17 @@ g_lib_incls = -I . -I src
 rule build_ast_from_re
   command = $bsc  $warnings -color always -bs-jsx 3 $bsc_flags -o $out -bs-syntax-only -bs-binary-ast $in
   description = [34mBuilding[39m [2m${out}[22m
-build  src/Gl.reast : build_ast_from_re $src_root_dir/src/Gl.re
+build  src/GLSL.reast : build_ast_from_re $src_root_dir/src/GLSL.re
 rule build_deps
-  command = $bsdep -hash b77a69456eed056775949702c975c9d7 $g_ns -g $bsb_dir_group $in
+  command = $bsdep -hash 2ffa295ac92469400b7a91ee9bdd050b $g_ns -g $bsb_dir_group $in
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
-build  src/Gl.d : build_deps src/Gl.reast
+build  src/GLSL.d : build_deps src/GLSL.reast
 rule ml_cmj_cmi
   command = $bsc -nostdlib $g_pkg_flg -color always $g_lib_incls -I $g_std_incl $warnings $bsc_flags -o $out $in
   dyndep = $in_e.d
   restat = 1
   description = [34mBuilding[39m [2m${out}[22m
-build  src/Gl-TinyWonderDemoTriangle.cmj |  src/Gl-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Gl.js : ml_cmj_cmi src/Gl.reast ||  src/Gl.d
-  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
-build  src/GLSL.reast : build_ast_from_re $src_root_dir/src/GLSL.re
-build  src/GLSL.d : build_deps src/GLSL.reast
 build  src/GLSL-TinyWonderDemoTriangle.cmj |  src/GLSL-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/GLSL.js : ml_cmj_cmi src/GLSL.reast ||  src/GLSL.d
   g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
 build  src/Main.reast : build_ast_from_re $src_root_dir/src/Main.re
@@ -45,6 +41,10 @@ build  src/Matrix-TinyWonderDemoTriangle.cmj |  src/Matrix-TinyWonderDemoTriangl
 build  src/Vector.reast : build_ast_from_re $src_root_dir/src/Vector.re
 build  src/Vector.d : build_deps src/Vector.reast
 build  src/Vector-TinyWonderDemoTriangle.cmj |  src/Vector-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/Vector.js : ml_cmj_cmi src/Vector.reast ||  src/Vector.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
+build  src/WebGL1.reast : build_ast_from_re $src_root_dir/src/WebGL1.re
+build  src/WebGL1.d : build_deps src/WebGL1.reast
+build  src/WebGL1-TinyWonderDemoTriangle.cmj |  src/WebGL1-TinyWonderDemoTriangle.cmi $src_root_dir/lib/es6_global/src/WebGL1.js : ml_cmj_cmi src/WebGL1.reast ||  src/WebGL1.d
   g_pkg_flg = $g_pkg_flg  -bs-package-output es6-global:lib/es6_global/src
 build  src/DomExtend.reast : build_ast_from_re $src_root_dir/src/DomExtend.re
 build  src/DomExtend.d : build_deps src/DomExtend.reast
